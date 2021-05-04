@@ -9,8 +9,9 @@ const AudioUpload = ({ setNewAudioFlag }) => {
     const [artist, setArtist] = useState('');
 
     const uploadAudioApi = (audio) => {
-        return fetch('uploadAudio', {
+        return fetch('http://localhost:3001/uploadAudio', {
             method: 'POST',
+            credentials: 'include',
             body: audio
         }).then(response => response.json());
     };

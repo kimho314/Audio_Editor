@@ -22,8 +22,9 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
     }, [newAudioFlag]);
 
     const getAudioListApi = (userId) => {
-        return fetch(`/audioList/${userId}`, {
+        return fetch(`http://localhost:3001/audioList/${userId}`, {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -48,8 +49,9 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
 
     const playAudioApi = (trackName, userId) => {
-        return fetch(`playUploadAudio?userId=${userId}&trackName=${trackName}`, {
+        return fetch(`http://localhost:3001/playUploadAudio?userId=${userId}&trackName=${trackName}`, {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -92,11 +94,12 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
 
     const updateAudioApi = (audio) => {
-        return fetch('updateAudio', {
+        return fetch('http://localhost:3001/updateAudio', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify(audio)
         }).then(response => response.json());
     };
