@@ -216,7 +216,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
                     </tbody>
                 </Table>
 
-                <Modal show={modalShow} onHide={handleModalClose}>
+                <Modal size="xl" show={modalShow} onHide={handleModalClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Audio Edit Modal</Modal.Title>
                     </Modal.Header>

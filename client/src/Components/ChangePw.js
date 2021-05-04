@@ -17,11 +17,13 @@ const ChangePw = () => {
 
     const isValid = () => {
         if (userId === '' || userPw === '') {
+            alert('변경하실 비밀번호를 입력하여 주십시오!');
             return false;
         }
 
         let pwRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
         if (!pwRegex.text(userPw)) {
+            alert('비밀번호는 8~15자리, 숫자/영문자/특수기호 조합하여야 합니다!');
             return false;
         }
 
