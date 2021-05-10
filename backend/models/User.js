@@ -5,7 +5,6 @@ const User = function (user) {
     this.id = user.id;
     this.userName = user.userName;
     this.password = user.password;
-    this.createDtm = user.createDtm;
 };
 
 

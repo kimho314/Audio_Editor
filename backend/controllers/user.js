@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'mySuperSecretKey';
+const dotenv = require('dotenv');
+dotenv.config();
 
 exports.createToken = async (req, res, next) => {
     try {
@@ -12,7 +13,7 @@ exports.createToken = async (req, res, next) => {
         if (user !== "not_found") {
             const token = jwt.sign({
                 user_id: user[0].id
-            }, SECRET_KEY, {
+            }, process.env.SECRET_KEY, {
                 expiresIn: '1h'
             });
             res.cookie('user', token);
@@ -75,7 +76,7 @@ exports.findById = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     try {
-        let userDup = await User.findById(req.body.id);
+        let userDup = await User.findByIdAndPw(req.body.id, req.body.password);
         if (userDup === 'not_found') {
             res.status(400).send({ result: "user is not found" });
             return;

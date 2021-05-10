@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'mySuperSecretKey';
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 const verifyToken = (req, res, next) => {
     try {
         const clientToken = req.cookies.user;
-        const decoded = jwt.verify(clientToken, SECRET_KEY);
+        const decoded = jwt.verify(clientToken, process.env.SECRET_KEY);
 
         if (decoded) {
             res.locals.userId = decoded.id;
