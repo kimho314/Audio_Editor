@@ -4,8 +4,8 @@ const SECRET_KEY = 'mySuperSecretKey';
 
 exports.createToken = async (req, res, next) => {
     try {
-        console.log(req.body);
-        let user = await User.findById(req.body.id);
+        // console.log(req.body);
+        let user = await User.findByIdAndPw(req.body.id, req.body.password);
         console.log("createToken>>>>>>");
         console.log(user);
 

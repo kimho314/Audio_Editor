@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -8,12 +8,13 @@ const Signup = () => {
     const [isSignupSuccess, setSignupSuccess] = useState(false);
 
     const createUserApi = (user) => {
-        return fetch('/signup', {
+        return fetch('http://localhost:3001/signup', {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: 'include'
         }).then(response => response.json());
     };
 

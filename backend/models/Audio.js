@@ -2,12 +2,12 @@ const sql = require("./db");
 
 // constructor
 const Audio = function (audio) {
-    this.title = audio.title;
-    this.album = audio.album;
-    this.artist = audio.artist;
-    this.filePath = audio.filePath;
     this.userId = audio.userId;
     this.trackName = audio.trackName;
+    this.title = audio.title;
+    this.album = audio.album;
+    this.filePath = audio.filePath;
+    this.artist = audio.artist;
 };
 
 /*
