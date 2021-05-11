@@ -6,7 +6,7 @@ const ChangePw = () => {
     const [userPw, setUserPw] = useState('');
 
     const changePwApi = (user) => {
-        return fetch('/api/changePw', {
+        return fetch('http://localhost:3001/api/changePw', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

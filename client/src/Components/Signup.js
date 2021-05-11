@@ -8,7 +8,7 @@ const Signup = () => {
     const [isSignupSuccess, setSignupSuccess] = useState(false);
 
     const createUserApi = (user) => {
-        return fetch('/api/signup', {
+        return fetch('http://localhost:3001/api/signup', {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {

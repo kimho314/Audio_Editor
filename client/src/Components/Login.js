@@ -7,7 +7,7 @@ const Login = ({ setHasCookie }) => {
     const [userPw, setUserPw] = useState('');
 
     const loginApi = (user) => {
-        return fetch('/api/login', {
+        return fetch('http://localhost:3001/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

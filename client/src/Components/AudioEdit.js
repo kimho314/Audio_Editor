@@ -22,7 +22,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
     }, [newAudioFlag]);
 
     const getAudioListApi = (userId) => {
-        return fetch(`/api/audioList/${userId}`, {
+        return fetch(`http://localhost:3001/api/audioList/${userId}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -49,7 +49,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
 
     const playAudioApi = (trackName, userId) => {
-        return fetch(`/api/playUploadAudio?userId=${userId}&trackName=${trackName}`, {
+        return fetch(`http://localhost:3001/api/playUploadAudio?userId=${userId}&trackName=${trackName}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
