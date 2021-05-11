@@ -11,17 +11,17 @@ const Audio = function (audio) {
 };
 
 /*
- * title: req.body.title,
- * album: req.body.album,
- * artist: req.body.artist,
- * filePath: path.resolve("uploads", req.body.userId),
- * userId: req.body.userId,
- * trackName: req.file.originalname,
+* title: req.body.title,
+* album: req.body.album,
+* artist: req.body.artist,
+* filePath: path.resolve("uploads", req.body.userId),
+* userId: req.body.userId,
+* trackName: req.file.originalname
 */
 Audio.create = (newAudio) => {
     return new Promise((resolve, reject) => {
         console.log(newAudio);
-        let query = `INSERT INTO AUDIO_LIST_TB (TITLE, ALBUM, ARTIST, FILE_PATH, USER_ID, TRACK_NAME) 
+        let query = `INSERT INTO AUDIO_LIST_TB (USER_ID, TRACK_NAME, TITLE, ALBUM, FILE_PATH, ARTIST) 
                 VALUES(?, ?, ?, ?, ?, ?)`;
         sql.query(query, Object.values(newAudio), (err, res) => {
             if (err) {

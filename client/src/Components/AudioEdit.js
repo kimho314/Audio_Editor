@@ -57,7 +57,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
             }
         }).then(response => {
             // response.json();
-            setSelectedAudio(`playUploadAudio?userId=${userId}&trackName=${trackName}`);
+            setSelectedAudio(`http://localhost:3001/api/playUploadAudio?userId=${userId}&trackName=${trackName}`);
         });
     };
 
