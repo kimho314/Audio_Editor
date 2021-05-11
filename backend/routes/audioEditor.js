@@ -35,8 +35,8 @@ module.exports = app => {
         }),
     });
 
-    app.get('/audioList/:userId', verifyToken, audioEditorController.getAll);
-    app.post('/uploadAudio', verifyToken, upload.single('audioFile'), audioEditorController.upload);
-    app.get('/playUploadAudio', verifyToken, audioEditorController.playUploadAudio);
-    app.put('/updateAudio', verifyToken, audioEditorController.update);
+    app.get('/api/audioList/:userId', verifyToken, audioEditorController.getAll);
+    app.post('/api/uploadAudio', verifyToken, upload.single('audioFile'), audioEditorController.upload);
+    app.get('/api/playUploadAudio', verifyToken, audioEditorController.playUploadAudio);
+    app.put('/api/updateAudio', verifyToken, audioEditorController.update);
 };
