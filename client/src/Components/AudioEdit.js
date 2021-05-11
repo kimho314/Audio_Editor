@@ -94,7 +94,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
 
     const updateAudioApi = (audio) => {
-        return fetch('/api/updateAudio', {
+        return fetch('http://localhost:3001/api/updateAudio', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
