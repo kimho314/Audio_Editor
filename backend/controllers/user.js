@@ -1,4 +1,5 @@
-const User = require("../models/User");
+// const User = require("../models/User");
+const User = require("../repository/user");
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -39,14 +40,19 @@ exports.create = async (req, res, next) => {
         });
     }
 
-    const user = new User({
+    // const user = new User({
+    //     id: req.body.id,
+    //     userName: req.body.userName,
+    //     password: req.body.password,
+    // });
+    const user = {
         id: req.body.id,
         userName: req.body.userName,
         password: req.body.password,
-    });
+    };
 
     try {
-        let userDup = await User.findById(user.id);
+        let userDup = await User.findByIdAndPw(user.id, user.password);
         console.log("userDup: ", userDup);
         if (userDup !== 'not_found') {
             res.status(400).send({ result: "user is already existed" });
@@ -62,17 +68,17 @@ exports.create = async (req, res, next) => {
 
 };
 
-exports.findById = async (req, res, next) => {
-    try {
-        let ret = await User.findById(req.params.userId);
-        res.send({ result: "ok", data: ret });
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            result: "user is already existed"
-        });
-    }
-};
+// exports.findById = async (req, res, next) => {
+//     try {
+//         let ret = await User.findById(req.params.userId);
+//         res.send({ result: "ok", data: ret });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(400).json({
+//             result: "user is already existed"
+//         });
+//     }
+// };
 
 exports.update = async (req, res, next) => {
     try {
