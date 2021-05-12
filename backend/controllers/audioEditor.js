@@ -19,7 +19,7 @@ exports.playUploadAudio = async (req, res, next) => {
     try {
         let userId = req.query.userId;
         let trackName = req.query.trackName;
-        // console.log("userId: " + userId + ", trackName: " + trackName);
+
         let ret = await Audio.findOne(trackName, userId);
         if (ret !== 'not_found') {
             let file = path.resolve(ret[0].FILE_PATH, ret[0].TRACK_NAME);
@@ -56,14 +56,6 @@ exports.upload = async (req, res, next) => {
         console.log(req.body);
         console.log(req.file);
 
-        // const audio = new Audio({
-        //     title: req.body.title,
-        //     album: req.body.album,
-        //     artist: req.body.artist,
-        //     filePath: path.resolve("uploads", req.body.userId),
-        //     userId: req.body.userId,
-        //     trackName: req.file.originalname,
-        // });
         const audio = {
             userId: req.body.userId,
             trackName: req.file.originalname,
@@ -94,13 +86,6 @@ exports.update = async (req, res, next) => {
             return;
         }
 
-        // const audio = new Audio({
-        //     trackName: req.body.trackName,
-        //     title: req.body.title,
-        //     album: req.body.album,
-        //     artist: req.body.artist,
-        //     userId: req.body.userId,
-        // });
         const audio = {
             title: req.body.title,
             alnum: req.body.album,
