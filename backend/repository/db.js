@@ -18,7 +18,7 @@ const result = async (query, params) => {
     } catch (e) {
         throw new Error(e);
     } finally {
-        conn.release();
+        conn.release(); // release pool
     }
 }
 

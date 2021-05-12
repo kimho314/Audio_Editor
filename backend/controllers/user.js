@@ -68,17 +68,6 @@ exports.create = async (req, res, next) => {
 
 };
 
-// exports.findById = async (req, res, next) => {
-//     try {
-//         let ret = await User.findById(req.params.userId);
-//         res.send({ result: "ok", data: ret });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(400).json({
-//             result: "user is already existed"
-//         });
-//     }
-// };
 
 exports.update = async (req, res, next) => {
     try {

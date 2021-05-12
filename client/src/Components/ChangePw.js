@@ -23,7 +23,7 @@ const ChangePw = () => {
         }
 
         let pwRegex = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
-        if (!pwRegex.text(userPw)) {
+        if (!pwRegex.test(userPw)) {
             alert('비밀번호는 8~15자리, 숫자/영문자/특수기호 조합하여야 합니다!');
             return false;
         }
@@ -34,7 +34,7 @@ const ChangePw = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!isValid) {
+        if (!isValid()) {
             return;
         }
 

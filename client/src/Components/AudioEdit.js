@@ -33,6 +33,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
     const handleGetAudioList = async () => {
         let userId = localStorage.getItem("userId");
+        console.log("userId: ", userId);
         const response = await getAudioListApi(userId);
         console.log("handleGetAudioList >>>>>>>>>>");
         console.log(response);
@@ -117,6 +118,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
         console.log('res: ', ret);
         if (ret.result === 'ok') {
             alert('오디어 변경 성공!');
+            setNewAudioFlag(true);
             handleModalClose();
         }
     };
