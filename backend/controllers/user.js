@@ -6,7 +6,6 @@ dotenv.config();
 
 exports.createToken = async (req, res, next) => {
     try {
-        // console.log(req.body);
         let user = await User.findByIdAndPw(req.body.id, req.body.password);
         console.log("createToken>>>>>>");
         console.log(user);
@@ -40,11 +39,6 @@ exports.create = async (req, res, next) => {
         });
     }
 
-    // const user = new User({
-    //     id: req.body.id,
-    //     userName: req.body.userName,
-    //     password: req.body.password,
-    // });
     const user = {
         id: req.body.id,
         userName: req.body.userName,
