@@ -18,6 +18,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
     const [goSearch, setGoSearch] = useState(false);
 
     useEffect(() => {
+        console.log('AudioEdit Component');
         handleGetAudioList();
     }, [newAudioFlag]);
 
@@ -33,7 +34,6 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
     const handleGetAudioList = async () => {
         let userId = localStorage.getItem("userId");
-        console.log("userId: ", userId);
         const response = await getAudioListApi(userId);
         console.log("handleGetAudioList >>>>>>>>>>");
         console.log(response);

@@ -6,7 +6,7 @@ const fs = require('fs');
 
 exports.getAll = async (req, res, next) => {
     try {
-        console.log("userId: ", req.params.userId);
+        // console.log("userId: ", req.params.userId);
         let ret = await Audio.findAll(req.params.userId);
         res.send({ result: "ok", data: ret });
     } catch (err) {

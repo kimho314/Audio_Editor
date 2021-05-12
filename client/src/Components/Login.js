@@ -31,8 +31,8 @@ const Login = ({ setHasCookie }) => {
             });
 
             if (response.result === 'ok') {
-                setHasCookie(true);
                 localStorage.setItem('userId', userId);
+                setHasCookie(true);
             } else {
                 console.log(response.result);
                 alert('로그인에 실패했습니다.');
