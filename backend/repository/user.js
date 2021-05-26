@@ -1,8 +1,8 @@
 const sql = require("./db");
 
 exports.create = async (user) => {
-    let query = `INSERT INTO USER_INFO_TB (ID, USER_NAME, PASSWORD) 
-                VALUES(?, ?, ?)`;
+    let query = `INSERT INTO USER_INFO_TB (ID, USER_NAME, PASSWORD, SALT) 
+                VALUES(?, ?, ?, ?)`;
     let ret = await sql(query, user);
     console.log("user ret >>>>> ", ret);
     return ret;
@@ -37,4 +37,11 @@ exports.update = async (id, password) => {
     let ret = await sql(query, { password: password, id: id });
     console.log("user update >>>>> ", ret);
     return ret;
-}
+};
+
+exports.findSaltById = async (id) => {
+    let query = `SELECT SALT FROM USER_INFO_TB WHERE ID = ?`;
+    let ret = await sql(query, { id: id });
+    console.log("findSalt >>>>>>", ret);
+    return ret;
+};
