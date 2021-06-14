@@ -11,8 +11,9 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReactAudioPlayer from "react-audio-player";
-import AudioUpload from "../Components/AudioUpload/AudioUpload";
 import playingImg from "../Assets/Images/musicplaying.jpg";
+import { PlayFill, Pencil, MusicNoteBeamed, MusicNoteList } from "react-bootstrap-icons";
+import "./AudioEdit.css"
 
 const AudioEdit = ({ setHasCookie, removeCookie }) => {
   const [audioList, setAudioList] = useState([]);
@@ -21,17 +22,24 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
   const [newAudioFlag, setNewAudioFlag] = useState(false);
 
   const [modalShow, setModalShow] = useState(false);
-  const [modalData, setModalData] = useState(null);
+  const [modalData, setModalData] = useState({
+    trackName: null,
+    title: null,
+    album: null,
+    artist: null,
+  });
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [goSearch, setGoSearch] = useState(false);
+
+  const [editModalItem, setEditModalItem] = useState(null)
 
   useEffect(() => {
     handleGetAudioList();
   }, [newAudioFlag]);
 
   const getAudioListApi = (userId) => {
-    return fetch(`http://localhost:3001/audioList/${userId}`, {
+    return fetch(`http://localhost:3001/api/audioList/${userId}`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -61,7 +69,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
 
   const playAudioApi = (trackName, userId) => {
     return fetch(
-      `http://localhost:3001/playUploadAudio?userId=${userId}&trackName=${trackName}`,
+      `http://localhost:3001/api/playUploadAudio?userId=${userId}&trackName=${trackName}`,
       {
         method: "GET",
         credentials: "include",
@@ -71,8 +79,14 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
       }
     ).then((response) => {
       // response.json();
+      // setSelectedAudio(
+      //   `playUploadAudio?userId=${userId}&trackName=${trackName}`
+      // );
       setSelectedAudio(
-        `playUploadAudio?userId=${userId}&trackName=${trackName}`
+        null
+      );
+      setSelectedAudio(
+        response.url
       );
     });
   };
@@ -95,15 +109,36 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
   };
 
   const handleEditAudio = (e) => {
-    // console.log(e.target.parentNode.parentNode.children[0].innerText);
+    // setEditModalItem(e)
+    console.log(e.target.getAttribute('value'))
+
+    let item = audioList
+    if (goSearch) {
+      item = goSearch &&
+      audioList
+        .filter((item) => {
+          return item.TRACK_NAME.includes(searchKeyword);
+        })
+    }
+    console.log(item[Number(e.target.getAttribute('value'))])
+    
+    // let modalDataIn = {
+    //   trackName: e.target.parentNode.parentNode.parentNode.children[1].innerText,
+    //   title: e.target.parentNode.parentNode.parentNode.children[2].innerText,
+    //   album: e.target.parentNode.parentNode.parentNode.children[3].innerText,
+    //   artist: e.target.parentNode.parentNode.parentNode.children[4].innerText,
+    // };
+
     let modalDataIn = {
-      trackName: e.target.parentNode.parentNode.children[1].innerText,
-      title: e.target.parentNode.parentNode.children[2].innerText,
-      album: e.target.parentNode.parentNode.children[3].innerText,
-      artist: e.target.parentNode.parentNode.children[4].innerText,
+      trackName: item[Number(e.target.getAttribute('value'))].TRACK_NAME,
+      title: item[Number(e.target.getAttribute('value'))].TITLE,
+      album: item[Number(e.target.getAttribute('value'))].ALBUM,
+      artist: item[Number(e.target.getAttribute('value'))].ARTIST,
     };
+
     console.log("modalDataIn", modalDataIn);
     setModalData(modalDataIn);
+
     setModalShow(true);
   };
 
@@ -112,7 +147,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
   };
 
   const updateAudioApi = (audio) => {
-    return fetch("http://localhost:3001/updateAudio", {
+    return fetch("http://localhost:3001/api/updateAudio", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -123,6 +158,7 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
   };
 
   const handleUpdateAudio = async () => {
+
     let newAudio = {
       trackName: modalData.trackName,
       title: modalData.title,
@@ -158,14 +194,12 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
       /> */}
 
       <Container>
-        <h3>음악 리스트</h3>
-
         {/* <Container>
           <ReactAudioPlayer src={selectedAudio} autoPlay controls />
         </Container> */}
 
-        <Card className="my-5">
-          <Card.Header>Now Playing</Card.Header>
+        <Card className="card-now-playing my-5">
+          <Card.Header><MusicNoteBeamed /> Now Playing</Card.Header>
           <Card.Body>
             <Card.Img src={playingImg} className="w-75 d-flex mx-auto my-3" />
             <ReactAudioPlayer
@@ -195,8 +229,8 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
           />
         </Container> */}
 
-        <Card className="my-5">
-          <Card.Header>Playlist</Card.Header>
+        <Card className="card-playlist my-5">
+          <Card.Header><MusicNoteList /> Playlist</Card.Header>
           <Card.Body>
             <Form>
               <FormGroup
@@ -252,18 +286,19 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
                         <td>{v.ARTIST}</td>
                         <td>
                           <Button
-                            variant="primary"
+                            variant="transparent"
                             onClick={handlePlayAudio}
                             style={{ marginRight: "5px" }}
                           >
-                            PLAY
+                            <PlayFill />
                           </Button>
                           <Button
-                            variant="primary"
-                            onClick={handleEditAudio}
+                            
+                            variant="transparent"
+                            
                             style={{ marginLeft: "5px" }}
                           >
-                            EDIT
+                            <Pencil value={i} onClick={(e) => {handleEditAudio(e)}}/>
                           </Button>
                         </td>
                       </tr>
@@ -293,18 +328,19 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
                           <td>{v.ARTIST}</td>
                           <td>
                             <Button
-                              variant="primary"
+                              variant="transparent"
                               onClick={handlePlayAudio}
                               style={{ marginRight: "5px" }}
                             >
-                              PLAY
+                              <PlayFill />
                             </Button>
                             <Button
-                              variant="primary"
-                              onClick={handleEditAudio}
+                              variant="transparent"
+                              
+                              
                               style={{ marginLeft: "5px" }}
                             >
-                              EDIT
+                              <Pencil value={i} onClick={(e) =>{handleEditAudio(e)}} />
                             </Button>
                           </td>
                         </tr>
@@ -320,7 +356,75 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
             <Modal.Title>Audio Edit Modal</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Table striped bordered hover>
+            <Form>
+              <FormGroup>
+                <Form.Label>Track Name</Form.Label>
+                <FormControl 
+                title="Track Name"
+                  type="text" 
+                  value={modalData.trackName}
+                  onChange={(e) => {
+                    setModalData({
+                      ...modalData,
+                      trackName: e.target.value,
+                    })
+                  }}
+                  placeholder={modalData && modalData.trackName}
+                ></FormControl>
+              </FormGroup>
+
+              <FormGroup>
+                <Form.Label>Title</Form.Label>
+                <FormControl 
+                title="Title"
+                  type="text" 
+                  value={modalData.title}
+                  onChange={(e) => {
+                    setModalData({
+                      ...modalData,
+                      title: e.target.value,
+                    })
+                  }}
+                  placeholder={modalData && modalData.title}
+                ></FormControl>
+              </FormGroup>
+
+              <FormGroup>
+                <Form.Label>Album</Form.Label>
+                <FormControl 
+                title="Album"
+                  type="text" 
+                  value={modalData.album}
+                  onChange={(e) => {
+                    setModalData({
+                      ...modalData,
+                      album: e.target.value,
+                    })
+                  }}
+                  placeholder={modalData && modalData.album}
+                ></FormControl>
+              </FormGroup>
+
+              <FormGroup>
+                <Form.Label>Artist</Form.Label>
+                <FormControl 
+                title="Artist"
+                  type="text" 
+                  value={modalData.artist}
+                  onChange={(e) => {
+                    setModalData({
+                      ...modalData,
+                      artist: e.target.value,
+                    })
+                  }}
+                  placeholder={modalData && modalData.artist}
+                ></FormControl>
+              </FormGroup>
+            </Form>
+
+
+
+            {/* <Table striped bordered hover>
               <thead>
                 <tr>
                   <th>TRACK NAME</th>
@@ -376,11 +480,11 @@ const AudioEdit = ({ setHasCookie, removeCookie }) => {
                   </td>
                 </tr>
               </tbody>
-            </Table>
+            </Table> */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleModalClose}>
-              CLose
+              Close
             </Button>
             <Button variant="primary" onClick={handleUpdateAudio}>
               Save Changes

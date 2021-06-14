@@ -20,7 +20,7 @@ const AudioUpload = ({ setNewAudioFlag }) => {
   const handleShow = () => setShow(true);
 
   const uploadAudioApi = (audio) => {
-    return fetch("http://localhost:3001/uploadAudio", {
+    return fetch("http://localhost:3001/api/uploadAudio", {
       method: "POST",
       credentials: "include",
       body: audio,
@@ -42,11 +42,12 @@ const AudioUpload = ({ setNewAudioFlag }) => {
     console.log(response);
     if (response.result === "ok") {
       alert("음악 파일 업로드 완료!!!");
+      window.location.reload();
     } else {
       alert("음악 파일 업로드 실패!!!");
     }
     // setNewAudioFlag(true);
-    setNewAudioFlag();
+    // setNewAudioFlag();
     e.target.reset();
   };
 
@@ -59,8 +60,9 @@ const AudioUpload = ({ setNewAudioFlag }) => {
           <Modal.Title>Upload New Track</Modal.Title>
         </Modal.Header>
 
+        <Form onSubmit={handleUploadAudio} encType="multipart/form-data">
         <Modal.Body>
-          <Form onSubmit={handleUploadAudio} encType="multipart/form-data">
+          
             <FormGroup controlId="trackTitle">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -104,17 +106,18 @@ const AudioUpload = ({ setNewAudioFlag }) => {
                 }}
               />
             </FormGroup>
-          </Form>
+          
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant="outline-warning" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="outline-info" onClick={handleClose}>
+          <Button variant="outline-info" type="submit" onClick={handleClose}>
             Submit
           </Button>
         </Modal.Footer>
+        </Form>
       </Modal>
 
       {/* <Container>
